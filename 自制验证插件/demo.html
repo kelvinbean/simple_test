@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<style>
+		*{margin: 0; padding: 0;}
+		.info{padding: 15px; margin: 0 auto; max-width: 1200px;}
+		input{padding: 0 5px; width: 300px; height: 36px; font-size: 14px; background: #fff; border: 1px solid #ddd;}
+		table{width: 100%; border-collapse: collapse; border-spacing: 0;}
+		th,td{padding: 5px 10px; line-height:1.6; border: 1px solid #333;}
+		th{ font-size: 18px; text-align: left;}
+		td{ font-size: 14px;}
+		.td-l{width: 20%; color: #ff5a00;}
+		tr:hover td{background-color: #ddd;}
+		.pre{
+			margin: 10px 0;
+			padding: 15px;
+			line-height: 1.4;
+			font-size: 14px;
+			color: #fff;
+			background: #333;
+			border-radius: 5px;
+		}
+		h2{line-height: 2; font-size: 24px;}
+		p{line-height: 1.6; font-size: 14px;}
+		.tips{font-size: 12px; color: #f00;}
+	</style>
+</head>
+<body>
+	<div class="info">
+		<h2>一、HTML部分</h2>
+		<p>示例如下：</p>
+		<div class="pre">&lt;input name="email" type="text" data-name="邮箱" &gt;</div>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
+		<h2>二、JS部分</h2>
+		<p>依赖于jquery，需在有jquery的环境下使用；</p>
+		<p>条件触发时才会进行验证，如失去焦点，表单提交时进行验证，可自行定义；</p>
+		<p>示例如下：</p>
+		<div class="pre">
+			<pre>
+	$('body').on('blur', 'input,textarea', function(){
+		//统一验证的设置
+		var obj = {
+			inputObj : $(this)
+		};
+		//特殊设置
+		switch($(this).name){
+			case 'email' : 
+				obj.sreg = validateEvn.rex.emailSreg;
+				obj.reg = validateEvn.rex.email;
+				break;
+		}
+		//调用
+		validateEvn.validate(obj,function(opt){
+			opt.inObj.parent().find('.tips').html(opt.tips);
+		});
+	});
+			</pre>
+		</div>
+
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<h2>三、DEMO</h2>
+		<form action="">
+			<input name="email" type="text" value="" placeholder="请输入邮箱"  data-name="邮箱">
+			<span class="tips"></span>
+		</form>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+<script src="bValidate.js"></script>
+<script>
+	$('body').on('blur', 'input,textarea', function(){
+		//统一验证的设置
+		var obj = {
+			inputObj : $(this)
+		};
+		//特殊设置
+		switch($(this).attr('name')){
+			case 'email' : 
+				obj.sreg = validateEvn.rex.emailSreg;
+				obj.reg = validateEvn.rex.email;
+				break;
+		}
+		//调用
+		validateEvn.validate(obj,function(opt){
+			opt.inObj.parent().find('.tips').html(opt.tips);
+		});
+	});
+</script>
+</body>
+</html>
