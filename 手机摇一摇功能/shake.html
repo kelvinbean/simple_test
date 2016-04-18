@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script>
+		var shake = (function(){
+	        var speed = 25; //摇一摇速度的临界值
+	        var x = y = z = lastX = lastY = lastZ = 0;
+	        var isShaking = false; //是否在动画中
+	        return function init(callback){
+	                if(window.DeviceMotionEvent){
+	                        window.addEventListener('devicemotion', function(){deviceMotionHandler(callback);}, false)
+	                }else{
+	                        alert("not support mobile motion event");
+	                }
+	        }
+	        function deviceMotionHandler(callback){
+	                /*获取x,y,z方向的即时速度*/
+	                var acceleration = event.accelerationIncludingGravity;
+	                x = acceleration.x;y = acceleration.y;z = acceleration.z;
+	                if(Math.abs(x-lastX) > speed || Math.abs(y-lastY) > speed || Math.abs(z-lastZ) > speed){
+                        if(!isShaking){
+                            //手机震动一秒
+                            if (navigator.vibrate) {
+			                    navigator.vibrate(1000);
+			                }else if (navigator.webkitVibrate) {
+			                    navigator.webkitVibrate(1000);
+			                }
+			                isShaking = true;
+			                setTimeout(function(){
+			                        callback();
+			                        isShaking = false;
+			                });
+                        }
+	                }
+	                lastX = x;lastY = y;lastZ = z;
+	        }
+		}());
+
+		new shake(function(){
+        alert("您中奖了!");
+		});
+	</script>
+</head>
+<body>
+	<h1>摇一摇</h1>
+	<p>100%中奖</p>
+</body>
+</html>
