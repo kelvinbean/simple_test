@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div id="showMovie">
+		<img src="" id="movieImg" alt="">
+		<button id="next">下一部电影</button>
+	</div>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+	<script>
+		var idArr = [26585014,5327268,25757186,3718279,19955769,26425088,25798448];
+		var i =0;
+
+		if(location.hash){
+			i = parseInt(location.hash.replace('#',''));
+		}else{
+			i = 0;
+		}
+		$.ajax({
+			url:'https://api.douban.com/v2/movie/subject/'+idArr[i],
+			dataType:'jsonp',  
+			data:'',  
+			jsonp:'callback',  
+			success:function(result){
+				$("#movieImg").prop('src',result.images.large);
+			}
+		});
+
+		window.onhashchange = function(){
+			if(location.hash){
+				i = parseInt(location.hash.replace('#',''));
+			}else{
+				i = 0;
+			}
+			$.ajax({
+				url:'https://api.douban.com/v2/movie/subject/'+idArr[i],
+				dataType:'jsonp',  
+				data:'',  
+				jsonp:'callback',  
+				success:function(result){
+					$("#movieImg").prop('src',result.images.large);
+				}
+			});
+		};
+
+		$('body').on('click','#next',function(){
+			$.ajax({
+				url:'https://api.douban.com/v2/movie/subject/'+idArr[++i],
+				dataType:'jsonp',  
+				data:'',  
+				jsonp:'callback',  
+				success:function(result){
+					$("#movieImg").prop('src',result.images.large);
+					location.hash = "#"+i;
+				}
+			});
+		})
+	</script>
+</body>
+</html>
